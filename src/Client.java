@@ -9,7 +9,7 @@ public class Client {
         Client client = new Client("Localhost");
         client.runClient();
     }
-    //hhh
+
     //________________________________________________________________________________
 
     private String hostName;
@@ -23,8 +23,6 @@ public class Client {
     public void runClient(){                                                                                        //Run client method
         try {
             Socket socket = new Socket(hostName, port);                                                             //Socket for the client
-            System.out.println("You are connected!");
-
             new ReadThread(socket, this).start();                                                             //Readthread and writethread starts, so it can listen and write at the same time
             new WriteThread(socket, this).start();
 

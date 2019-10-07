@@ -1,6 +1,8 @@
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,7 +19,7 @@ public class Server {
 
 
     private int port = 9898;                                                                    //Port.
-    private Set<String> userNames = new HashSet<>();                                            //List of usernames connected.
+    private HashMap<String, String> users = new HashMap<>();                                            //List of usernames connected.
     private Set<ClientHandlerThread> userThreads = new HashSet<>();                             //Set of Threads that handles the communication with clients.
 
     public void runServer(){
@@ -28,7 +30,6 @@ public class Server {
             while (true){
                 Socket socket = serverSocket.accept();
                 System.out.println("New client is connected: "+socket.getLocalAddress());
-                System.out.println();
                 ClientHandlerThread newUser = new ClientHandlerThread(socket, this);      //Creates a clientHandller thread.
                 userThreads.add(newUser);                                                       //Adds it to the set of threads.
                 newUser.start();                                                                //Starts the thread (Run method in ClientHandlerThread CLASS).
@@ -46,12 +47,22 @@ public class Server {
         }
     }
 
-    void addUserName(String username){                                                          //Add the username to the list of usernames
-        userNames.add(username);
+    void sendMessage(String message, ClientHandlerThread user){
+        for (ClientHandlerThread thread: userThreads
+             ) {
+            if(thread == user){
+                thread.sendMessage(message);
+            }
+
+        }
     }
 
-    void removeUser(String username, ClientHandlerThread aUser){                                //Removes the username and the thread:
-        boolean removed = userNames.remove(username);
+    void addUser(String username, InetAddress inetAddress){                                                          //Add the username to the list of usernames
+        users.put(username, inetAddress.toString()+":"+port);
+    }
+
+    void removeUser(String username, InetAddress inetAddress, ClientHandlerThread aUser){                                //Removes the username and the thread:
+        boolean removed = users.remove(username, inetAddress.toString() );
         if (removed){
             userThreads.remove(aUser);
             System.out.println(username + " - has quitted the chat.");
@@ -61,7 +72,7 @@ public class Server {
     //__________________________________________________________________
     //Getters 'n setters
     boolean hasUsers() {
-        return !this.userNames.isEmpty();
+        return !this.users.isEmpty();
     }
 
     public int getPort() {
@@ -72,12 +83,12 @@ public class Server {
         this.port = port;
     }
 
-    public Set<String> getUsernames() {
-        return userNames;
+    public HashMap<String, String> getUsers() {
+        return users;
     }
 
-    public void setUsernames(Set<String> userNames) {
-        this.userNames = userNames;
+    public void setUsers(HashMap<String, String> userNames) {
+        this.users = userNames;
     }
 
     public Set<ClientHandlerThread> getUserThreads() {

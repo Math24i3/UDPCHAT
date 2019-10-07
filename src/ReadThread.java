@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class ReadThread extends  Thread{
 
@@ -31,6 +32,7 @@ public class ReadThread extends  Thread{
             try {
                 String response = reader.readLine();                                                        //Prints a response from a client if ther is a response
                 System.out.println(response);
+
                 if (client.getUserName()!= null){
                     //System.out.println(client.getUserName() + ": ");
 

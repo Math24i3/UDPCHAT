@@ -29,33 +29,36 @@ public class ClientHandlerThread extends Thread {
             printUsers();                                                                                   //Prints the users
 
             String username = reader.readLine();
-            server.addUserName(username);
 
-            String serverMessage = "New User is connected. Please say hello to: "+ username + ".\n";
-            server.broadCast(serverMessage, this);
 
-            String clientMessage;
-            do {
-                clientMessage = reader.readLine();
-                serverMessage = username + ": " + clientMessage;
-                server.broadCast(serverMessage, this);                                              //gets the message and broadcast it to clients
+                    server.addUser(username, socket.getInetAddress());
 
-            }while (!clientMessage.equals("exit"));                                                         //Terminates the socket
-                server.removeUser(username, this);
-                socket.close();
+                    String serverMessage = "New User is connected. Please say hello to: " + username + ".\n";
+                    server.broadCast(serverMessage, this);
 
-                serverMessage = username + ", has quitted.";
-                server.broadCast(serverMessage, this);
+                    String clientMessage;
+                    do {
+                        clientMessage = reader.readLine();
+                        serverMessage = username + ": " + clientMessage;
+                        server.broadCast(serverMessage, this);                                              //gets the message and broadcast it to clients
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+                    } while (!clientMessage.equals("exit"));                                                         //Terminates the socket
+                    server.removeUser(username, socket.getInetAddress(), this);
+                    socket.close();
+
+                    serverMessage = username + ", has quitted.";
+                    server.broadCast(serverMessage, this);
+
+            } catch(IOException e){
+                e.printStackTrace();
+            }
+
     }
     //_______________________________________________________________________
     //PrintUsers
     void printUsers(){                                                                                         //Prints the users who arte connected to the server
         if (server.hasUsers()){
-            writer.println("Users connected: " + server.getUsernames());
+            writer.println("Users connected: " + server.getUsers());
         } else {
             writer.println("Currently no other users.");
         }

@@ -11,6 +11,7 @@ public class Server {
     public static void main(String [] args) throws IOException {
 
         Server server = new Server();
+
         //Execute the run server method();
         server.runServer();
     }
@@ -23,6 +24,7 @@ public class Server {
     private Set<ClientHandlerThread> userThreads = new HashSet<>();                             //Set of Threads that handles the communication with clients.
 
     public void runServer(){
+        HeartBeatThread heartBeatThread = new HeartBeatThread();
         try {
             ServerSocket serverSocket = new ServerSocket(port);                                 //A serversocket.
             System.out.println("Server is listening on port: "+port);
@@ -33,6 +35,7 @@ public class Server {
                 ClientHandlerThread newUser = new ClientHandlerThread(socket, this);      //Creates a clientHandller thread.
                 userThreads.add(newUser);                                                       //Adds it to the set of threads.
                 newUser.start();                                                                //Starts the thread (Run method in ClientHandlerThread CLASS).
+
             }
         } catch (IOException e){
             e.printStackTrace();

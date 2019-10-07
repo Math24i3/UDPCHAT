@@ -10,6 +10,7 @@ public class WriteThread extends Thread {
     Socket socket;
     Client client;
 
+
     public WriteThread(Socket socket, Client client ) {
         this.socket = socket;
         this.client = client;
@@ -27,6 +28,7 @@ public class WriteThread extends Thread {
 
     @Override
     public void run() {
+
         Scanner userInput = new Scanner(System.in);
         String userName;
         System.out.println("Please enter a username, so other users can see who they are chatting with :)");            //Add username
@@ -42,9 +44,11 @@ public class WriteThread extends Thread {
         System.out.println("_______________________________________");
 
         writer.println(userName);
+
         do {
             text = userInput.nextLine();                                                                                //Prints the message
             writer.println(text);
+
 
         }while (!text.equals("exit"));
 

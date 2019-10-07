@@ -41,8 +41,12 @@ public class ClientHandlerThread extends Thread {
 
                     String clientMessage;
 
-                    new HeartBeatThread(username).start();
+                    boolean timer = true;
+
+                    new HeartBeatThread(username, socket).start();
+
                     do {
+
                         clientMessage = reader.readLine();
                         serverMessage = username + ": " + clientMessage;
                         server.broadCast(serverMessage, this);                                              //gets the message and broadcast it to clients
@@ -50,7 +54,6 @@ public class ClientHandlerThread extends Thread {
                     } while (!clientMessage.equals("exit"));                                                         //Terminates the socket
                     server.removeUser(username, socket.getInetAddress(), this);
                     socket.close();
-
                     serverMessage = username + ", has quitted.";
                     server.broadCast(serverMessage, this);
 

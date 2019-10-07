@@ -1,24 +1,40 @@
+import java.io.IOException;
+import java.net.Socket;
+
 public class HeartBeatThread extends Thread{
 
 
     String username;
+    Socket socket;
 
-    public HeartBeatThread(String username) {
+    public HeartBeatThread(String username, Socket socket) {
         this.username = username;
+        this.socket = socket;
+
     }
 
     @Override
     public void run() {
-        while (true) {
+        try {
+            while (true) {
 
+                if (socket.isClosed()){
+                    System.out.println(username + " is not connected anymore");
+                    break;
+                } else{
+                    try {
+                        System.out.println(username + " is still connected");
+                        Thread.sleep(10000);
+                    } catch (InterruptedException e) {
+                        System.out.println(username + " is not connected anymore");
+                        break;
+                    }
+                }
 
-            try {
-                System.out.println(username + " is still connected");
-                Thread.sleep(10000);
-            } catch (InterruptedException e) {
-                System.out.println(username + " is not connected anymore");
             }
-        }
+        } catch (Exception e) {
+        e.printStackTrace();
+    }
     }
 
 

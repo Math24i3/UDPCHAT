@@ -6,7 +6,7 @@ public class ClientHandlerThread extends Thread {
     private Socket socket;
     private Server server;
     private PrintWriter writer;
-    HeartBeatThread heartBeatThread = new HeartBeatThread();
+
 
 
     //Constructor for the thread
@@ -36,10 +36,12 @@ public class ClientHandlerThread extends Thread {
 
                     String serverMessage = "New User is connected. Please say hello to: " + username + ".\n";
                     server.broadCast(serverMessage, this);
-                     heartBeatThread.setUsername(username);
-                     heartBeatThread.run();
+
+
 
                     String clientMessage;
+
+                    new HeartBeatThread(username).start();
                     do {
                         clientMessage = reader.readLine();
                         serverMessage = username + ": " + clientMessage;

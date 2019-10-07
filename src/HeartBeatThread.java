@@ -1,13 +1,15 @@
-public class HeartBeatThread implements Runnable{
+public class HeartBeatThread extends Thread{
 
 
     String username;
-    int run = 0;
 
+    public HeartBeatThread(String username) {
+        this.username = username;
+    }
 
     @Override
     public void run() {
-        while (run==0) {
+        while (true) {
 
 
             try {

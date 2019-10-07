@@ -24,7 +24,7 @@ public class Server {
     private Set<ClientHandlerThread> userThreads = new HashSet<>();                             //Set of Threads that handles the communication with clients.
 
     public void runServer(){
-        HeartBeatThread heartBeatThread = new HeartBeatThread();
+
         try {
             ServerSocket serverSocket = new ServerSocket(port);                                 //A serversocket.
             System.out.println("Server is listening on port: "+port);

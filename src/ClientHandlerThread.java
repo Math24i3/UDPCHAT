@@ -39,6 +39,7 @@ public class ClientHandlerThread extends Thread {
                     System.out.println(username + ", is connected.");
 
 
+
                     String clientMessage;
 
                     boolean timer = true;

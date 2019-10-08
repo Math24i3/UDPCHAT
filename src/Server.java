@@ -62,7 +62,9 @@ public class Server {
         }
     }
 
-    void addUser(String username, InetAddress inetAddress){                                                          //Add the username to the list of usernames
+    void addUser(String username, InetAddress inetAddress){//Add the username to the list of usernames
+
+        
         users.put(username, inetAddress.toString()+":"+port);
     }
 
@@ -89,6 +91,7 @@ public class Server {
     }
 
     public HashMap<String, String> getUsers() {
+
         return users;
     }
 

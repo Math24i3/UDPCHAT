@@ -36,7 +36,7 @@ public class ClientHandlerThread extends Thread {
 
                     String serverMessage = "New User is connected. Please say hello to: " + username + ".\n";
                     server.broadCast(serverMessage, this);
-
+                    System.out.println(username + ", is connected.");
 
 
                     String clientMessage;

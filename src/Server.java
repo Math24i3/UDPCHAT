@@ -31,8 +31,10 @@ public class Server {
 
             while (true){
                 Socket socket = serverSocket.accept();
-                System.out.println("New client is connected: "+socket.getLocalAddress());
+
                 ClientHandlerThread newUser = new ClientHandlerThread(socket, this);      //Creates a clientHandller thread.
+                System.out.println("New client is connected: " + socket.getLocalAddress());
+
                 userThreads.add(newUser);                                                       //Adds it to the set of threads.
                 newUser.start();                                                                //Starts the thread (Run method in ClientHandlerThread CLASS).
 

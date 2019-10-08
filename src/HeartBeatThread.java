@@ -23,8 +23,9 @@ public class HeartBeatThread extends Thread{
                     break;
                 } else{
                     try {
-                        System.out.println(username + " is still connected");
                         Thread.sleep(10000);
+                        System.out.println(username + " is still connected");
+
                     } catch (InterruptedException e) {
                         System.out.println(username + " is not connected anymore");
                         break;
